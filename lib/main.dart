@@ -3,7 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movies/common/data/api_client.dart';
 import 'package:movies/features/home/data/repositories/movies_repository.dart';
+import 'package:hive_flutter/adapters.dart';
 
+import 'common/domain/entities/favorites.dart';
+import 'common/domain/entities/movie.dart';
 import 'common/data/constants/app_constants.dart';
 import 'features/favorites/domain/cubit/favorites_cubit.dart';
 import 'features/favorites/presentation/pages/favorites_page.dart';
@@ -14,10 +17,13 @@ import 'features/home/presentation/pages/movie_detail_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  //Hive.registerAdapter(FavoritesAdapter());
-  //Hive.registerAdapter(MovieAdapter());
-  //await Hive.openBox<Favorites>(Favorites.boxName);
-  //await Hive.openBox<Movie>(Movie.boxName);
+
+  await Hive.initFlutter();
+  Hive.registerAdapter(FavoritesAdapter());
+  Hive.registerAdapter(MovieAdapter());
+  await Hive.openBox<Favorites>(Favorites.boxName);
+  await Hive.openBox<Movie>(Movie.boxName);
+  
   runApp(const App());
 }
 
